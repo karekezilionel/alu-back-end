@@ -12,12 +12,11 @@ if __name__ == "__main__":
         sys.exit(1)
 
     employee_id = int(sys.argv[1])
-
-    # Base URLs
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todos_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+    todos_url = (
+        f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+    )
 
-    # Fetch employee data
     user_response = requests.get(user_url)
     if user_response.status_code != 200:
         print("User not found")
@@ -26,14 +25,14 @@ if __name__ == "__main__":
     user_data = user_response.json()
     employee_name = user_data.get("name")
 
-    # Fetch todos
     todos_response = requests.get(todos_url)
     todos = todos_response.json()
-
-    # Filter completed tasks
     done_tasks = [task for task in todos if task.get("completed")]
 
-    print(f"Employee {employee_name} is done with tasks({len(done_tasks)}/{len(todos)}):")
+    print(
+        f"Employee {employee_name} is done with tasks"
+        f"({len(done_tasks)}/{len(todos)}):"
+    )
     for task in done_tasks:
         print(f"\t {task.get('title')}")
 
